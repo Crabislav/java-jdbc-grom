@@ -4,10 +4,10 @@ import java.sql.*;
 
 public class JDBCFirstStep {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DB_URL = "";
+    private static final String DB_URL = "jdbc:oracle:thin:@gromcode-lessons.cgumkbozheyb.eu-west-3.rds.amazonaws.com:1521:ORCL";
 
-    private static final String USER = "";
-    private static final String PASSWORD = "";
+    private static final String USER = "main";
+    private static final String PASSWORD = "gromcode";
 
     //1,DB Driver
     //2. create connection
@@ -27,7 +27,7 @@ public class JDBCFirstStep {
                 return;
             }
 
-            try (ResultSet resultSet = stmt.executeQuery("SELECT * FROM Test")) {
+            try (ResultSet resultSet = stmt.executeQuery("SELECT * FROM TEST")) {
                 while (resultSet.next()) {
                     System.out.println("Object found");
                 }
