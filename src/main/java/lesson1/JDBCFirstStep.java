@@ -19,7 +19,6 @@ public class JDBCFirstStep {
     public static void main(String[] args) throws Exception {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
-
             try {
                 Class.forName(JDBC_DRIVER);
             } catch (ClassNotFoundException e) {
