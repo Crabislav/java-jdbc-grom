@@ -16,45 +16,48 @@ public class Solution {
     private static final String UPDATE_PRICE = "UPDATE PRODUCT SET PRICE=? WHERE ID=?";
 
     public static void main(String[] args) {
-        increasePrice();
+//        increasePrice();
         changeDescription();
     }
 
     static void increasePrice() {
-        List<Product> products = getProducts(SELECT_PRODUCTS_BY_PRICE);
-
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRICE)) {
-
-            for (Product product : products) {
+        DataProcessor dataProcessor = (preparedStatement, product) -> {
+            try {
                 preparedStatement.setInt(1, product.getPrice() + 100);
                 preparedStatement.setLong(2, product.getId());
-
-                preparedStatement.executeUpdate();
-
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+        processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, dataProcessor);
 
     }
 
     static void changeDescription() {
-        List<Product> products = getProducts(SELECT_PRODUCTS_BY_DESCRIPTION);
-
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_DESCRIPTION)) {
-
-            for (Product product : products) {
+        DataProcessor dataProcessor = (preparedStatement, product) -> {
+            try {
                 preparedStatement.setString(1, deleteLastSentence(product));
                 preparedStatement.setLong(2, product.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+        processData(SELECT_PRODUCTS_BY_DESCRIPTION, UPDATE_DESCRIPTION, dataProcessor);
+    }
+
+    static void processData(String selectSQL, String updateSQL, DataProcessor dataProcessor) {
+        List<Product> products = getProducts(selectSQL);
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+
+            for (Product product : products) {
+                dataProcessor.process(preparedStatement, product);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private static String deleteLastSentence(Product product) {
