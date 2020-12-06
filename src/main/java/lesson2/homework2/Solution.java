@@ -21,7 +21,7 @@ public class Solution {
     }
 
     static void increasePrice() {
-        DataProcessor dataProcessor = (preparedStatement, product) -> {
+        StatementPreparer statementPreparer = (preparedStatement, product) -> {
             try {
                 preparedStatement.setInt(1, product.getPrice() + 100);
                 preparedStatement.setLong(2, product.getId());
@@ -29,12 +29,12 @@ public class Solution {
                 e.printStackTrace();
             }
         };
-        processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, dataProcessor);
+        processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, statementPreparer);
 
     }
 
     static void changeDescription() {
-        DataProcessor dataProcessor = (preparedStatement, product) -> {
+        StatementPreparer statementPreparer = (preparedStatement, product) -> {
             try {
                 preparedStatement.setString(1, deleteLastSentence(product));
                 preparedStatement.setLong(2, product.getId());
@@ -42,17 +42,17 @@ public class Solution {
                 e.printStackTrace();
             }
         };
-        processData(SELECT_PRODUCTS_BY_DESCRIPTION, UPDATE_DESCRIPTION, dataProcessor);
+        processData(SELECT_PRODUCTS_BY_DESCRIPTION, UPDATE_DESCRIPTION, statementPreparer);
     }
 
-    static void processData(String selectSQL, String updateSQL, DataProcessor dataProcessor) {
+    static void processData(String selectSQL, String updateSQL, StatementPreparer statementPreparer) {
         List<Product> products = getProducts(selectSQL);
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
             for (Product product : products) {
-                dataProcessor.process(preparedStatement, product);
+                statementPreparer.prepare(preparedStatement, product);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
