@@ -20,12 +20,8 @@ public class Solution {
     // Например, если нужно найти продукты с ценой 100 и дельтой 10, то ищем все от 90 до 110
     List<Product> findProductsByPrice(int price, int delta) {
         StatementPreparer statementPreparer = preparedStatement -> {
-            try {
                 preparedStatement.setInt(1, price - delta);
                 preparedStatement.setInt(2, price + delta);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         };
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_PRICE);
     }
@@ -37,12 +33,8 @@ public class Solution {
         validateWord(word);
 
         StatementPreparer statementPreparer = preparedStatement -> {
-            try {
                 String pattern = "%" + word + "%";
                 preparedStatement.setString(1, pattern);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         };
 
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_NAME);
