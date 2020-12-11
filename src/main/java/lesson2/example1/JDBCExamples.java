@@ -10,6 +10,7 @@ public class JDBCExamples {
     private static final String USER = "main";
     private static final String PASSWORD = "gromcode";
 
+    private static final String INSERT_INTO_PRODUCT = "INSERT INTO PRODUCT VALUES(1, 'Toy', 'Toy for children', 50)";
 
     public static void main(String[] args) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -22,7 +23,7 @@ public class JDBCExamples {
 //            boolean res = stmt.execute("DELETE FROM PRODUCT WHERE NAME = 'Toy'");
 //            System.out.println(res);
 
-            int response = stmt.executeUpdate("INSERT INTO PRODUCT VALUES(1, 'Toy', 'Toy for children', 50)");
+            int response = stmt.executeUpdate(INSERT_INTO_PRODUCT);
             System.out.println(response);
         } catch (Exception e) {
             e.printStackTrace();
