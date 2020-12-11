@@ -1,9 +1,6 @@
 package lesson2.example1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Date;
 
 public class JDBCSecondStep {
@@ -12,6 +9,7 @@ public class JDBCSecondStep {
     private static final String USER = "main";
     private static final String PASSWORD = "gromcode";
 
+    private static final String SELECT_FROM_ORDERS_BY_PRICE = "SELECT * FROM ORDERS WHERE PRICE > 450";
     //1,DB Driver
     //2. create connection
     //3. create query
@@ -30,7 +28,7 @@ public class JDBCSecondStep {
                 return;
             }
 
-            try (ResultSet resultSet = stmt.executeQuery("SELECT * FROM ORDERS WHERE PRICE > 450")) {
+            try (ResultSet resultSet = stmt.executeQuery(SELECT_FROM_ORDERS_BY_PRICE)) {
                 while (resultSet.next()) {
                     long id = resultSet.getLong(1);
                     String productName = resultSet.getString(2);
