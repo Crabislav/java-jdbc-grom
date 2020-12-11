@@ -22,24 +22,16 @@ public class Solution {
 
     static void increasePrice() {
         StatementPreparer statementPreparer = (preparedStatement, product) -> {
-            try {
-                preparedStatement.setInt(1, product.getPrice() + 100);
-                preparedStatement.setLong(2, product.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            preparedStatement.setInt(1, product.getPrice() + 100);
+            preparedStatement.setLong(2, product.getId());
         };
         processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, statementPreparer);
     }
 
     static void changeDescription() {
         StatementPreparer statementPreparer = (preparedStatement, product) -> {
-            try {
-                preparedStatement.setString(1, deleteLastSentence(product));
-                preparedStatement.setLong(2, product.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            preparedStatement.setString(1, deleteLastSentence(product));
+            preparedStatement.setLong(2, product.getId());
         };
         processData(SELECT_PRODUCTS_BY_DESCRIPTION, UPDATE_DESCRIPTION, statementPreparer);
     }
@@ -48,8 +40,7 @@ public class Solution {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
-            List<Product> products = getProducts(selectSQL);
-            for (Product product : products) {
+            for (Product product : getProducts(selectSQL)) {
                 statementPreparer.prepare(preparedStatement, product);
                 preparedStatement.executeUpdate();
             }
