@@ -18,7 +18,7 @@ public class JDBCSecondStep {
     //6. close all the connection
 
     public static void main(String[] args) throws Exception {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
             try {
@@ -43,5 +43,9 @@ public class JDBCSecondStep {
         } catch (Exception e) {
             throw new Exception("Something went wrong");
         }
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 }
