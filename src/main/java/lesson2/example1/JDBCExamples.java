@@ -2,6 +2,7 @@ package lesson2.example1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCExamples {
@@ -13,7 +14,7 @@ public class JDBCExamples {
     private static final String INSERT_INTO_PRODUCT = "INSERT INTO PRODUCT VALUES(1, 'Toy', 'Toy for children', 50)";
 
     public static void main(String[] args) {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
 //            boolean res = stmt.execute("INSERT INTO PRODUCT(ID, NAME, DESCRIPTION, PRICE) " +
@@ -28,5 +29,9 @@ public class JDBCExamples {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 }
