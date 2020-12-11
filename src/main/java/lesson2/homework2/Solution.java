@@ -30,7 +30,6 @@ public class Solution {
             }
         };
         processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, statementPreparer);
-
     }
 
     static void changeDescription() {
@@ -46,11 +45,10 @@ public class Solution {
     }
 
     static void processData(String selectSQL, String updateSQL, StatementPreparer statementPreparer) {
-        List<Product> products = getProducts(selectSQL);
-
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
+            List<Product> products = getProducts(selectSQL);
             for (Product product : products) {
                 statementPreparer.prepare(preparedStatement, product);
                 preparedStatement.executeUpdate();
@@ -71,6 +69,7 @@ public class Solution {
         } else {
             newDescription = "";
         }
+
         return newDescription;
     }
 
@@ -103,7 +102,7 @@ public class Solution {
 
             return products;
         } catch (SQLException e) {
-            throw new SQLException();
+            throw new SQLException("Unable to map products");
         }
     }
 

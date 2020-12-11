@@ -14,11 +14,8 @@ public class Solution {
     private static final String SELECT_ALL_FROM_TEST_SPEED_BY_ID = "SELECT *  FROM TEST_SPEED";
 
     private static final int ROWS_AMOUNT = 1000;
-
     private static final String performanceExceptionMessage = "Unable to test performance";
-    //Все методы должны замерять скорость операции в миллисекундах и возвращать полученное значение
 
-    //будет успешно добавлять 1000 записей в таблицу TEST_SPEED c произвольными значениями
     //103404
     long testSavePerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
@@ -41,7 +38,6 @@ public class Solution {
         throw new PerformanceTestException(performanceExceptionMessage);
     }
 
-    //будет удалять 1000 добавленных перед этим записей, отдельными запросами по полю ID
     //106088
     long testDeleteByIdPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
@@ -61,7 +57,6 @@ public class Solution {
         throw new PerformanceTestException(performanceExceptionMessage);
     }
 
-    //будет удалять 1000, одним SQL запросом
     //206
     long testDeletePerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
@@ -78,8 +73,6 @@ public class Solution {
         throw new PerformanceTestException(performanceExceptionMessage);
     }
 
-    //будет выбирать по очереди 1000 добавленных перед этим записей, отдельными запросами
-    //по полю ID
     //103220
     long testSelectByIdPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
@@ -99,8 +92,6 @@ public class Solution {
         throw new PerformanceTestException(performanceExceptionMessage);
     }
 
-
-    //будет выбирать 1000 записей, одним SQL запросом
     //308
     long testSelectPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();

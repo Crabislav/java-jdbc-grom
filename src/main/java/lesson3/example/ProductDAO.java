@@ -46,6 +46,7 @@ public class ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return product;
     }
 
@@ -53,8 +54,9 @@ public class ProductDAO {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
-            List<Product> products = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_PRODUCT);
+
+            List<Product> products = new ArrayList<>();
 
             while (resultSet.next()) {
                 Product product = new Product(resultSet.getLong(1), resultSet.getString(2),
@@ -66,6 +68,7 @@ public class ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return new ArrayList<>();
     }
 

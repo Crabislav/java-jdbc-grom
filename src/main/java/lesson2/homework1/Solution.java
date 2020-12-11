@@ -62,7 +62,7 @@ public class Solution {
 
             return products;
         } catch (SQLException e) {
-            throw new SQLException();
+            throw new SQLException("Unable to map products");
         }
     }
 }

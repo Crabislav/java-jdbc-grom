@@ -16,8 +16,6 @@ public class Solution {
     private static final String SELECT_PRODUCT_BY_NAME = "SELECT * FROM PRODUCT WHERE NAME LIKE ?";
     private static final String SELECT_PRODUCT_BY_LENGTH_OF_DESCRIPTION = "SELECT * FROM PRODUCT WHERE DESCRIPTION IS NULL";
 
-    //будет искать продукты с заданной ценной в диапазоне +=delta включительно.
-    // Например, если нужно найти продукты с ценой 100 и дельтой 10, то ищем все от 90 до 110
     List<Product> findProductsByPrice(int price, int delta) {
         StatementPreparer statementPreparer = preparedStatement -> {
             preparedStatement.setInt(1, price - delta);
@@ -26,9 +24,6 @@ public class Solution {
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_PRICE);
     }
 
-    //продукты, которые содержат в своем имене слово word.
-    //Если word является некоректным (больше одного слова в стринге, длина меньше 3, содержит спецсимволы),
-    //выбрасывать ошибку, которая в описании обязательно должна содержать само слово и описание ошибки
     List<Product> findProductsByName(String word) throws BadRequestException {
         validateWord(word);
 
@@ -40,7 +35,6 @@ public class Solution {
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_NAME);
     }
 
-    // продукты с пустым полем описания
     List<Product> findProductsWithEmptyDescription() {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
@@ -50,7 +44,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private void validateWord(String word) throws BadRequestException {
@@ -85,7 +79,7 @@ public class Solution {
             e.printStackTrace();
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     private List<Product> mapProducts(ResultSet resultSet) throws SQLException {
@@ -100,7 +94,7 @@ public class Solution {
 
             return products;
         } catch (SQLException e) {
-            throw new SQLException();
+            throw new SQLException("Unable to map products");
         }
     }
 
