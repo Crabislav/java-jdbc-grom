@@ -15,11 +15,12 @@ public class Solution {
 
     private static final int ROWS_AMOUNT = 1000;
 
+    private static final String performanceExceptionMessage = "Unable to test performance";
     //Все методы должны замерять скорость операции в миллисекундах и возвращать полученное значение
 
     //будет успешно добавлять 1000 записей в таблицу TEST_SPEED c произвольными значениями
     //103404
-    long testSavePerformance() {
+    long testSavePerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_TEST_SPEED)) {
 
@@ -37,12 +38,12 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new PerformanceTestException(performanceExceptionMessage);
     }
 
     //будет удалять 1000 добавленных перед этим записей, отдельными запросами по полю ID
     //106088
-    long testDeleteByIdPerformance() {
+    long testDeleteByIdPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_TEST_SPEED_BY_ID)) {
 
@@ -57,12 +58,12 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new PerformanceTestException(performanceExceptionMessage);
     }
 
     //будет удалять 1000, одним SQL запросом
     //206
-    long testDeletePerformance() {
+    long testDeletePerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
@@ -74,13 +75,13 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new PerformanceTestException(performanceExceptionMessage);
     }
 
     //будет выбирать по очереди 1000 добавленных перед этим записей, отдельными запросами
     //по полю ID
     //103220
-    long testSelectByIdPerformance() {
+    long testSelectByIdPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_TEST_SPEED_BY_SINGLE_ID)) {
 
@@ -95,13 +96,13 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new PerformanceTestException(performanceExceptionMessage);
     }
 
 
     //будет выбирать 1000 записей, одним SQL запросом
     //308
-    long testSelectPerformance() {
+    long testSelectPerformance() throws PerformanceTestException {
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
@@ -113,7 +114,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new PerformanceTestException(performanceExceptionMessage);
     }
 
     private Connection getConnection() throws SQLException {

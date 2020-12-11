@@ -1,7 +1,7 @@
 package lesson3.homework2;
 
 public class Demo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PerformanceTestException {
         Solution solution = new Solution();
 
         System.out.println("Save performance = " + solution.testSavePerformance());
