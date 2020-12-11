@@ -66,7 +66,7 @@ public class ProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public void delete(long id) {

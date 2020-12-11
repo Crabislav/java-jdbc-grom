@@ -20,8 +20,8 @@ public class Solution {
     // Например, если нужно найти продукты с ценой 100 и дельтой 10, то ищем все от 90 до 110
     List<Product> findProductsByPrice(int price, int delta) {
         StatementPreparer statementPreparer = preparedStatement -> {
-                preparedStatement.setInt(1, price - delta);
-                preparedStatement.setInt(2, price + delta);
+            preparedStatement.setInt(1, price - delta);
+            preparedStatement.setInt(2, price + delta);
         };
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_PRICE);
     }
@@ -33,8 +33,8 @@ public class Solution {
         validateWord(word);
 
         StatementPreparer statementPreparer = preparedStatement -> {
-                String pattern = "%" + word + "%";
-                preparedStatement.setString(1, pattern);
+            String pattern = "%" + word + "%";
+            preparedStatement.setString(1, pattern);
         };
 
         return findProducts(statementPreparer, SELECT_PRODUCT_BY_NAME);
@@ -88,26 +88,20 @@ public class Solution {
         return null;
     }
 
-    private List<Product> mapProducts(ResultSet resultSet) {
+    private List<Product> mapProducts(ResultSet resultSet) throws SQLException {
         try {
             List<Product> products = new ArrayList<>();
 
             while (resultSet.next()) {
-                long id = resultSet.getLong(1);
-                String name = resultSet.getString(2);
-                String description = resultSet.getString(3);
-                int price = resultSet.getInt(4);
-
-                Product product = new Product(id, name, description, price);
+                Product product = new Product(resultSet.getLong(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getInt(4));
                 products.add(product);
             }
 
             return products;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException();
         }
-
-        return null;
     }
 
 }

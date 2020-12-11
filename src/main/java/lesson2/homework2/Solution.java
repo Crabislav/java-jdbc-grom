@@ -48,7 +48,7 @@ public class Solution {
     static void processData(String selectSQL, String updateSQL, StatementPreparer statementPreparer) {
         List<Product> products = getProducts(selectSQL);
 
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
 
             for (Product product : products) {
@@ -75,39 +75,36 @@ public class Solution {
     }
 
     private static List<Product> getProducts(String sql) {
-        List<Product> products = new ArrayList<>();
-
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
             ResultSet resultSet = statement.executeQuery(sql);
-            products = mapProducts(resultSet);
+            return mapProducts(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return products;
+        return new ArrayList<>();
     }
 
-    private static List<Product> mapProducts(ResultSet resultSet) {
-        Product product;
-        List<Product> products = new ArrayList<>();
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASSWORD);
+    }
 
+    private static List<Product> mapProducts(ResultSet resultSet) throws SQLException {
         try {
-            while (resultSet.next()) {
-                long id = resultSet.getLong(1);
-                String name = resultSet.getString(2);
-                String description = resultSet.getString(3);
-                int price = resultSet.getInt(4);
+            List<Product> products = new ArrayList<>();
 
-                product = new Product(id, name, description, price);
+            while (resultSet.next()) {
+                Product product = new Product(resultSet.getLong(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getInt(4));
                 products.add(product);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return products;
+            return products;
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
     }
 
 }
