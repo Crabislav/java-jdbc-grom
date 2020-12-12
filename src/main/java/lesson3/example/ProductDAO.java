@@ -51,9 +51,7 @@ public class ProductDAO {
     }
 
     public List<Product> getProducts() {
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement()) {
-
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_PRODUCT);
 
             List<Product> products = new ArrayList<>();
