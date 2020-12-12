@@ -9,39 +9,35 @@ public class Solution {
     private static final String USER = "main";
     private static final String PASSWORD = "gromcode";
 
-    private static final String SELECT_PRODUCTS_BY_PRICE = "SELECT * FROM PRODUCT WHERE PRICE<970";
     private static final String SELECT_PRODUCTS_BY_DESCRIPTION = "SELECT * FROM PRODUCT WHERE LENGTH(DESCRIPTION)>6";
 
     private static final String UPDATE_DESCRIPTION = "UPDATE PRODUCT SET DESCRIPTION=? WHERE ID=?";
-    private static final String UPDATE_PRICE = "UPDATE PRODUCT SET PRICE=? WHERE ID=?";
+    private static final String UPDATE_PRICE = "UPDATE PRODUCT SET PRICE=PRICE+? WHERE PRICE<?";
 
     public static void main(String[] args) {
-//        increasePrice();
-        changeDescription();
+        increasePrice();
+//        changeDescription();
     }
 
     static void increasePrice() {
-        StatementPreparer statementPreparer = (preparedStatement, product) -> {
-            preparedStatement.setInt(1, product.getPrice() + 100);
-            preparedStatement.setLong(2, product.getId());
-        };
-        processData(SELECT_PRODUCTS_BY_PRICE, UPDATE_PRICE, statementPreparer);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRICE)) {
+
+            preparedStatement.setInt(1, 100);
+            preparedStatement.setInt(2, 970);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     static void changeDescription() {
-        StatementPreparer statementPreparer = (preparedStatement, product) -> {
-            preparedStatement.setString(1, deleteLastSentence(product));
-            preparedStatement.setLong(2, product.getId());
-        };
-        processData(SELECT_PRODUCTS_BY_DESCRIPTION, UPDATE_DESCRIPTION, statementPreparer);
-    }
-
-    static void processData(String selectSQL, String updateSQL, StatementPreparer statementPreparer) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_DESCRIPTION)) {
 
-            for (Product product : getProducts(selectSQL)) {
-                statementPreparer.prepare(preparedStatement, product);
+            for (Product product : getProducts(SELECT_PRODUCTS_BY_DESCRIPTION)) {
+                preparedStatement.setString(1, deleteLastSentence(product));
+                preparedStatement.setLong(2, product.getId());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
