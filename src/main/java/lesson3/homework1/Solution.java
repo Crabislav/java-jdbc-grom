@@ -17,22 +17,36 @@ public class Solution {
     private static final String SELECT_PRODUCT_BY_LENGTH_OF_DESCRIPTION = "SELECT * FROM PRODUCT WHERE DESCRIPTION IS NULL";
 
     List<Product> findProductsByPrice(int price, int delta) {
-        StatementPreparer statementPreparer = preparedStatement -> {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_PRICE)) {
+
             preparedStatement.setInt(1, price - delta);
             preparedStatement.setInt(2, price + delta);
-        };
-        return findProducts(statementPreparer, SELECT_PRODUCT_BY_PRICE);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return mapProducts(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     List<Product> findProductsByName(String word) throws BadRequestException {
         validateWord(word);
 
-        StatementPreparer statementPreparer = preparedStatement -> {
-            String pattern = "%" + word + "%";
-            preparedStatement.setString(1, pattern);
-        };
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_NAME)) {
 
-        return findProducts(statementPreparer, SELECT_PRODUCT_BY_NAME);
+            preparedStatement.setString(1, "%" + word + "%");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return mapProducts(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     List<Product> findProductsWithEmptyDescription() {
@@ -44,6 +58,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return new ArrayList<>();
     }
 
@@ -65,21 +80,6 @@ public class Solution {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
-    }
-
-    private List<Product> findProducts(StatementPreparer statementPreparer, String sql) {
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            statementPreparer.prepare(preparedStatement);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return mapProducts(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
     }
 
     private List<Product> mapProducts(ResultSet resultSet) throws SQLException {
