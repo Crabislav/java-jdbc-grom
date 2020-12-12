@@ -14,7 +14,7 @@ public class Solution {
     private static final String SELECT_ALL_FROM_TEST_SPEED_BY_ID = "SELECT *  FROM TEST_SPEED";
 
     private static final int ROWS_AMOUNT = 1000;
-    private static final String performanceExceptionMessage = "Unable to test performance";
+    private static final String PERFORMANCE_EXCEPTION_MESSAGE = "Unable to test performance";
 
     //103404
     long testSavePerformance() throws PerformanceTestException {
@@ -35,7 +35,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new PerformanceTestException(performanceExceptionMessage);
+        throw new PerformanceTestException(PERFORMANCE_EXCEPTION_MESSAGE);
     }
 
     //106088
@@ -54,7 +54,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new PerformanceTestException(performanceExceptionMessage);
+        throw new PerformanceTestException(PERFORMANCE_EXCEPTION_MESSAGE);
     }
 
     //206
@@ -70,7 +70,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new PerformanceTestException(performanceExceptionMessage);
+        throw new PerformanceTestException(PERFORMANCE_EXCEPTION_MESSAGE);
     }
 
     //103220
@@ -89,7 +89,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new PerformanceTestException(performanceExceptionMessage);
+        throw new PerformanceTestException(PERFORMANCE_EXCEPTION_MESSAGE);
     }
 
     //308
@@ -105,7 +105,7 @@ public class Solution {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new PerformanceTestException(performanceExceptionMessage);
+        throw new PerformanceTestException(PERFORMANCE_EXCEPTION_MESSAGE);
     }
 
     private Connection getConnection() throws SQLException {
