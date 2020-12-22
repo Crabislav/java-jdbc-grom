@@ -11,5 +11,15 @@ public interface Service<T> {
 
     T findById(long id) throws InvalidInputException;
 
-    T findById(long id);
+    default void checkId(long id) throws InvalidInputException {
+        if (id < 0) {
+            throw new InvalidInputException("Id must be equals or greater than 0");
+        }
+    }
+
+    default void checkForNull(Object obj) throws InvalidInputException {
+        if (obj == null) {
+            throw new InvalidInputException("Input can't be null");
+        }
+    }
 }
