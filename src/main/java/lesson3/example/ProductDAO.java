@@ -19,6 +19,7 @@ public class ProductDAO {
     public Product save(Product product) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_PRODUCT)) {
+
             preparedStatement.setLong(1, product.getId());
             preparedStatement.setString(2, product.getName());
             preparedStatement.setString(3, product.getDescription());
@@ -52,8 +53,8 @@ public class ProductDAO {
 
     public List<Product> getProducts() {
         try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_PRODUCT);
 
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_PRODUCT);
             List<Product> products = new ArrayList<>();
 
             while (resultSet.next()) {

@@ -50,8 +50,7 @@ public class Solution {
     }
 
     List<Product> findProductsWithEmptyDescription() {
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
 
             ResultSet resultSet = statement.executeQuery(SELECT_PRODUCT_BY_LENGTH_OF_DESCRIPTION);
             return mapProducts(resultSet);
