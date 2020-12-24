@@ -1,23 +1,23 @@
 package lesson4.homework.model;
 
 public class Storage {
-    private Long id;
+    private long id;
     private String formatsSupported;
     private String storageCountry;
     private long storageMaxSize;
 
-    public Storage(Long id, String formatsSupported, String storageCountry, long storageMaxSize) {
+    public Storage(long id, String formatsSupported, String storageCountry, long storageMaxSize) {
         this.id = id;
         this.formatsSupported = formatsSupported;
         this.storageCountry = storageCountry;
         this.storageMaxSize = storageMaxSize;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -14,14 +14,6 @@ public class File {
         this.size = size;
     }
 
-    public File(long id, String name, String format, long size, Storage storage) {
-        this.id = id;
-        this.name = name;
-        this.format = format;
-        this.size = size;
-        this.storage = storage;
-    }
-
     public long getId() {
         return id;
     }
