@@ -9,13 +9,13 @@ public abstract class DAO<T> {
     static final String USER = "main";
     static final String PASSWORD = "gromcode";
 
-    public abstract T save(T t);
+    public abstract T save(T t) throws SQLException;
 
-    public abstract void delete(long id);
+    public abstract void delete(long id) throws SQLException;
 
-    public abstract T update(T t);
+    public abstract T update(T t) throws SQLException;
 
-    public abstract T findById(long id);
+    public abstract T findById(long id) throws SQLException;
 
     Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASSWORD);
