@@ -4,43 +4,56 @@ import lesson4.homework.dao.StorageDAO;
 import lesson4.homework.exception.InvalidInputException;
 import lesson4.homework.model.Storage;
 
-public class StorageService implements Service<Storage> {
+import java.sql.SQLException;
+
+public class StorageService {
     private static final StorageDAO STORAGE_DAO = new StorageDAO();
 
-    @Override
-    public Storage save(Storage storage) throws InvalidInputException {
+    public Storage save(Storage storage) throws InvalidInputException, SQLException {
         validateStorage(storage);
         return STORAGE_DAO.save(storage);
     }
 
-    @Override
-    public void delete(long id) throws InvalidInputException {
-        checkId(id);
+    public void delete(long id) throws InvalidInputException, SQLException {
+        Validator.checkId(id);
         STORAGE_DAO.delete(id);
     }
 
-    @Override
-    public Storage update(Storage storage) throws InvalidInputException {
+    public Storage update(Storage storage) throws InvalidInputException, SQLException {
         validateStorage(storage);
+
+        long freeSpace = STORAGE_DAO.getFreeSpace(STORAGE_DAO.findById(storage.getId()));
+        long newMaxSize = storage.getStorageMaxSize();
+        if (freeSpace > newMaxSize) {
+            throw new InvalidInputException("Unable to update storage(id=" + storage.getId() + ")." +
+                    " Old storage's free space(" + freeSpace + " can't be lower than new storage's max size("
+                    + newMaxSize + ")");
+        }
+
         return STORAGE_DAO.update(storage);
     }
 
-    @Override
-    public Storage findById(long id) throws InvalidInputException {
-        checkId(id);
+    public Storage findById(long id) throws InvalidInputException, SQLException {
+        Validator.checkId(id);
         return STORAGE_DAO.findById(id);
     }
 
-    private void validateStorage(Storage storage) throws InvalidInputException {
-        checkForNull(storage);
-        checkId(storage.getId());
+    void validateStorage(Storage storage) throws InvalidInputException {
+        Validator.checkForNull(storage);
+        Validator.checkId(storage.getId());
 
         if (storage.getStorageMaxSize() <= 0) {
-            throw new InvalidInputException("Size must be equals 0 or greater");
+            throw new InvalidInputException("Size(" + storage.getStorageMaxSize() + ") must be greater than 0");
         }
 
         if (storage.getStorageCountry() == null || storage.getStorageCountry().isEmpty()) {
-            throw new InvalidInputException("Storage's country can't be null or empty");
+            throw new InvalidInputException("Storage's country(" + storage.getStorageCountry()
+                    + ") can't be null or empty");
+        }
+
+        if (storage.getFormatsSupported() == null || storage.getFormatsSupported().isEmpty()) {
+            throw new InvalidInputException("Storage's formats(" + storage.getFormatsSupported()
+                    + ") can't be null or empty");
         }
     }
 }
