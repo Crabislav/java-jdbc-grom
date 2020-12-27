@@ -1,31 +1,33 @@
 package lesson4.homework.controller;
 
+import lesson4.homework.exception.InvalidInputException;
 import lesson4.homework.model.File;
 import lesson4.homework.model.Storage;
+import lesson4.homework.service.FileService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class FileController {
-    //добавляет файл в хранилище. гарантируется что файл уже есть в условной БД
-    public File put(Storage storage, File file) {
-        return null;
+    private static final FileService FILE_SERVICE = new FileService();
+
+    public File put(Storage storage, File file) throws Exception {
+        return FILE_SERVICE.put(storage, file);
     }
 
-    //добавляет список файлов в хранилище. гарантируется что файл уже есть в условной БД
-    public void putAll(Storage storage, List<File> files) {
-
+    public List<File> putAll(Storage storage, List<File> files) throws Exception {
+        return FILE_SERVICE.putAll(storage, files);
     }
 
-    public void delete(Storage storage, File file) {
+    public void delete(Storage storage, File file) throws InvalidInputException, SQLException {
+        FILE_SERVICE.delete(storage, file);
     }
 
-    //трансфер всех файлов
-    public void transferAll(Storage storageFrom, Storage storageTo) {
-
+    public void transferAll(Storage storageFrom, Storage storageTo) throws Exception {
+        FILE_SERVICE.transferAll(storageFrom, storageTo);
     }
 
-    //трансфер файла с хранилища storageFrom по его айди.
-    public File transferFile(Storage storageFrom, Storage storageTo, long id) {
-        return null;
+    public File transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception {
+        return FILE_SERVICE.transferFile(storageFrom, storageTo, id);
     }
 }
