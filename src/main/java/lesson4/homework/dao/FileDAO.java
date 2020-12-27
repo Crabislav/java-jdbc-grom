@@ -9,10 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FileDao extends DAO<File> {
+public class FileDAO extends DAO<File> {
     private static final String INSERT_FILE = "INSERT INTO FILES VALUES (?, ?, ?, ?, ?)";
     private static final String DELETE_FILE_BY_ID = "DELETE FROM FILES WHERE ID=?";
-    private static final String UPDATE_FILE = "UPDATE FILES SET NAME=?, FILE_FORMAT=?, FILE_SIZE=?, STORAGE_ID=?, WHERE ID=?";
+    private static final String UPDATE_FILE = "UPDATE FILES SET NAME=?, FILE_FORMAT=?, FILE_SIZE=?, STORAGE_ID=? WHERE ID=?";
     private static final String UPDATE_FILE_STORAGE = "UPDATE FILES SET STORAGE_ID=? WHERE STORAGE_ID=?";
     private static final String SELECT_FILE_BY_ID = "SELECT * FROM FILES WHERE ID=?";
 
@@ -136,8 +136,11 @@ public class FileDao extends DAO<File> {
             preparedStatement.setLong(1, newStorage.getId());
             preparedStatement.setLong(2, oldStorage.getId());
 
+            int res = preparedStatement.executeUpdate();
+            System.out.println("updateStorageForFiles was finished with res " + res);
         } catch (SQLException e) {
             throw new SQLException("Unable to update storage for files from storage(id=" + oldStorage.getId() + ")");
         }
+
     }
 }
