@@ -1,7 +1,5 @@
 package hibernate.lesson6.fullproductdao;
 
-import hibernate.lesson5.example.Product;
-
 import java.util.ArrayList;
 import java.util.List;
 

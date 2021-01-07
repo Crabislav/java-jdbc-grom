@@ -1,6 +1,5 @@
 package hibernate.lesson6.fullproductdao;
 
-import hibernate.lesson5.example.Product;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,7 +33,6 @@ public class ProductDAO {
 
     public void saveAll(List<Product> products) {
         DBWorker dbWorker = session -> {
-//            products.forEach(product -> session.save(product));
             products.forEach(session::save);
         };
         executeQuery(dbWorker);
@@ -60,10 +58,8 @@ public class ProductDAO {
             tr = session.getTransaction();
             tr.begin();
 
-            //action
             dbWorker.execute(session);
 
-            //close session/transaction
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.err.println(e.getMessage());
