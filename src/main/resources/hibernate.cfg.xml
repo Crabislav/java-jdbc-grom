@@ -8,7 +8,6 @@
         <property name="hibernate.connection.url">jdbc:oracle:thin:@gromcode-lessons.cgumkbozheyb.eu-west-3.rds.amazonaws.com:1521:ORCL</property>
         <property name="hibernate.connection.username">main</property>
         <property name="hibernate.connection.password">gromcode</property>
-      <!--  <mapping class="lesson5.example.Product"></mapping> -->
-        <mapping class="lesson5.homework.model.Product"/>
+        <mapping class="hibernate.lesson5.example.Product"/>
     </session-factory>
 </hibernate-configuration>
