@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Demo {
-    private static final ProductDAO productDAO = ProductDAO.getInstance();
-
     public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
         Product product = generateProduct("single", "descr", 50);
         //save test +
 //       productDAO.save(product);

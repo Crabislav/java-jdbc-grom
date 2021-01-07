@@ -10,7 +10,6 @@ import java.util.List;
 
 public class ProductDAO {
     private static SessionFactory sessionFactory;
-    private static ProductDAO productDAO;
 
     public Product save(Product product) {
         DBWorker dbWorker = session -> session.save(product);
@@ -75,12 +74,5 @@ public class ProductDAO {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         }
         return sessionFactory;
-    }
-
-    public static ProductDAO getInstance() {
-        if (productDAO == null) {
-            productDAO = new ProductDAO();
-        }
-        return productDAO;
     }
 }
