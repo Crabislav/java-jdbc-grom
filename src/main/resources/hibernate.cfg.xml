@@ -14,7 +14,10 @@
 
         <!--        <mapping class="hibernate.lesson5.example.Product"/>-->
         <!--        <mapping class="hibernate.lesson6.fullproductdao.Product"/>-->
-<!--        <mapping class="hibernate.lesson6.productdaohql.Product"/>-->
+        <!--        <mapping class="hibernate.lesson6.productdaohql.Product"/>-->
         <mapping class="hibernate.lesson6.productdaonativesql.Product"/>
+
+        <mapping class="hibernate.lesson7.entity.Hotel"/>
+        <mapping class="hibernate.lesson7.entity.Room"/>
     </session-factory>
 </hibernate-configuration>
