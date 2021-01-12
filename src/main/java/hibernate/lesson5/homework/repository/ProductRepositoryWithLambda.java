@@ -4,35 +4,32 @@ import hibernate.lesson5.example.Product;
 import hibernate.lesson5.homework.HibernateUtils;
 import org.hibernate.Session;
 
+import java.util.function.Consumer;
+
 public class ProductRepositoryWithLambda {
     private static final HibernateUtils HIBERNATE_UTILS = new HibernateUtils();
 
     public Product save(Product product) {
-        DBWorker dbWorker = session -> session.save(product);
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> session.save(product));
         return product;
     }
 
     public void delete(long id) {
-        DBWorker dbWorker = session -> {
-            Product product = new Product();
-            product.setId(id);
-            session.delete(product);
-        };
-        executeQuery(dbWorker);
+        Product product = new Product();
+        product.setId(id);
+        executeInsideTransaction(session -> session.delete(product));
     }
 
     public Product update(Product product) {
-        DBWorker dbWorker = session -> session.update(product);
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> session.update(product));
         return product;
     }
 
-    private void executeQuery(DBWorker dbWorker) {
+    private void executeInsideTransaction(Consumer<Session> action) {
         Session session = HIBERNATE_UTILS.createSessionFactory().openSession();
         session.getTransaction().begin();
 
-        dbWorker.execute(session);
+        action.accept(session);
 
         session.getTransaction().commit();
         session.close();
