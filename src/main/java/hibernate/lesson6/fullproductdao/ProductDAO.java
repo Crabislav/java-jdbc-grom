@@ -7,57 +7,46 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ProductDAO {
     private static SessionFactory sessionFactory;
 
     public Product save(Product product) {
-        DBWorker dbWorker = session -> session.save(product);
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> session.save(product));
         return product;
     }
 
     public void delete(long id) {
         Product product = new Product();
         product.setId(id);
-        DBWorker dbWorker = session -> session.delete(product);
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> session.delete(product));
     }
 
     public Product update(Product product) {
-        DBWorker dbWorker = session -> session.update(product);
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> session.update(product));
         return product;
     }
 
     public void saveAll(List<Product> products) {
-        DBWorker dbWorker = session -> {
-            products.forEach(session::save);
-        };
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> products.forEach(session::save));
     }
 
     public void updateAll(List<Product> products) {
-        DBWorker dbWorker = session -> {
-            products.forEach(session::update);
-        };
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> products.forEach(session::update));
     }
 
     public void deleteAll(List<Product> products) {
-        DBWorker dbWorker = session -> {
-            products.forEach(session::delete);
-        };
-        executeQuery(dbWorker);
+        executeInsideTransaction(session -> products.forEach(session::delete));
     }
 
-    private static void executeQuery(DBWorker dbWorker) {
+    private static void executeInsideTransaction(Consumer<Session> action) {
         Transaction tr = null;
         try (Session session = createSessionFactory().openSession()) {
             tr = session.getTransaction();
             tr.begin();
 
-            dbWorker.execute(session);
+            action.accept(session);
 
             session.getTransaction().commit();
         } catch (HibernateException e) {
