@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.function.Consumer;
+
 public abstract class DAO<T> {
     private static SessionFactory sessionFactory;
 
@@ -17,13 +19,13 @@ public abstract class DAO<T> {
 
     public abstract T findById(long id);
 
-    static void executeQuery(DBWorker dbWorker) {
+    static void executeQuery(Consumer<Session> action) {
         Transaction tr = null;
         try (Session session = createSessionFactory().openSession()) {
             tr = session.getTransaction();
             tr.begin();
 
-            dbWorker.execute(session);
+            action.accept(session);
 
             session.getTransaction().commit();
         } catch (HibernateException e) {
