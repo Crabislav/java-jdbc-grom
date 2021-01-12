@@ -10,6 +10,7 @@ import org.hibernate.query.NativeQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class ProductDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM Product p WHERE p.id=:id";
@@ -26,97 +27,97 @@ public class ProductDAO {
     Product findById(long id) {
         AtomicReference<Product> product = new AtomicReference<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_BY_ID, Product.class)
                     .setParameter("id", id);
             product.set(query.getSingleResult());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return product.get();
     }
 
     List<Product> findByName(String name) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_NAME, Product.class)
                     .setParameter("name", name);
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
     List<Product> findByContainedName(String name) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_NAME_LIKE, Product.class)
                     .setParameter("name", "%" + name + "%");
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
     List<Product> findByPrice(int price, int delta) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_PRICE, Product.class)
                     .setParameter("from", price - delta)
                     .setParameter("to", price + delta);
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
     List<Product> findByNameSortedAsc(String name) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_NAME_ASC_ORDER, Product.class)
                     .setParameter("name", "%" + name + "%");
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
     List<Product> findByNameSortedDesc(String name) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_NAME_DESC_ORDER, Product.class)
                     .setParameter("name", "%" + name + "%");
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
     List<Product> findByPriceSortedDesc(int price, int delta) {
         List<Product> products = new ArrayList<>();
 
-        DBWorker dbWorker = session -> {
+        Consumer<Session> action = session -> {
             NativeQuery<Product> query = session.createNativeQuery(SELECT_PRODUCTS_BY_PRICE_DESC_ORDER, Product.class)
                     .setParameter("from", price - delta)
                     .setParameter("to", price + delta);
             products.addAll(query.list());
         };
-        executeQuery(dbWorker);
+        executeInsideTransaction(action);
         return products;
     }
 
-    private static void executeQuery(DBWorker dbWorker) {
+    private static void executeInsideTransaction(Consumer<Session> action) {
         Transaction tr = null;
         try (Session session = createSessionFactory().openSession()) {
             tr = session.getTransaction();
             tr.begin();
 
             //action
-            dbWorker.execute(session);
+            action.accept(session);
 
             //close session/transaction
             session.getTransaction().commit();
