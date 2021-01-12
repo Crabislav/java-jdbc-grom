@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class HotelDAO extends DAO<Hotel> {
     @Override
     public Hotel save(Hotel hotel) {
-        executeQuery(session -> session.save(hotel));
+        executeInsideTransaction(session -> session.save(hotel));
         return hotel;
     }
 
@@ -15,19 +15,19 @@ public class HotelDAO extends DAO<Hotel> {
     public void delete(long id) {
         Hotel hotel = new Hotel();
         hotel.setId(id);
-        executeQuery(session -> session.delete(hotel));
+        executeInsideTransaction(session -> session.delete(hotel));
     }
 
     @Override
     public Hotel update(Hotel hotel) {
-        executeQuery(session -> session.update(hotel));
+        executeInsideTransaction(session -> session.update(hotel));
         return hotel;
     }
 
     @Override
     public Hotel findById(long id) {
         AtomicReference<Hotel> hotelAtomicReference = new AtomicReference<>();
-        executeQuery(session -> hotelAtomicReference.set(session.find(Hotel.class, id)));
+        executeInsideTransaction(session -> hotelAtomicReference.set(session.find(Hotel.class, id)));
         return hotelAtomicReference.get();
     }
 }

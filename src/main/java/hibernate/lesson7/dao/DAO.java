@@ -19,7 +19,7 @@ public abstract class DAO<T> {
 
     public abstract T findById(long id);
 
-    static void executeQuery(Consumer<Session> action) {
+    static void executeInsideTransaction(Consumer<Session> action) {
         Transaction tr = null;
         try (Session session = createSessionFactory().openSession()) {
             tr = session.getTransaction();
