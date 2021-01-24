@@ -16,8 +16,6 @@ public class StorageDAO extends DAO<Storage> {
     private static final String UPDATE_STORAGE = "UPDATE STORAGES SET FORMATS_SUPPORTED=?, STORAGE_COUNTRY=?, " +
             "STORAGE_MAX_SIZE=? WHERE ID=?";
     private static final String SELECT_SIZE = "SELECT SUM(FILE_SIZE) FROM FILES F JOIN STORAGES S ON S.ID = F.STORAGE_ID WHERE S.ID=?";
-    private static final String SELECT_FILES_BY_FORMAT = "SELECT * FROM FILES F JOIN STORAGES S ON S.ID = F.STORAGE_ID" +
-            " WHERE S.ID=? AND F.FILE_FORMAT=?";
 
     @Override
     public Storage save(Storage storage) throws SQLException {
@@ -104,25 +102,6 @@ public class StorageDAO extends DAO<Storage> {
             return storage.getStorageMaxSize() - resultSet.getLong(1);
         } catch (SQLException e) {
             throw new SQLException("Can't calculate free space for storage(id=" + storage.getId() + ")");
-        }
-    }
-
-    public List<String> getFilesByFormat(Storage storage, String format) throws SQLException {
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FILES_BY_FORMAT)) {
-
-            preparedStatement.setLong(1, storage.getId());
-            preparedStatement.setString(2, format);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            List<String> formats = new ArrayList<>();
-            while (resultSet.next()) {
-                formats.add(resultSet.getString(1));
-            }
-
-            return formats;
-        } catch (SQLException e) {
-            throw new SQLException("Unable to get files' formats from storage(id=" + storage.getId() + ")");
         }
     }
 }
