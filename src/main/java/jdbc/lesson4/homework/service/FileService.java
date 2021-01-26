@@ -40,7 +40,6 @@ public class FileService {
         }
 
         FileServiceValidator.validateDelete(storage, file);
-
         FILE_DAO.delete(file.getId());
     }
 
