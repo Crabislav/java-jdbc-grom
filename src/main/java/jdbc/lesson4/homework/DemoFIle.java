@@ -81,7 +81,6 @@ public class DemoFIle {
     private static void testTransferFile() throws Exception {
         FILE_CONTROLLER.put(storage1, file1);
         FILE_CONTROLLER.transferFile(storage1, storage2, file1.getId());
-        FILE_CONTROLLER.delete(storage2, file1);
     }
 
     private static void testDeleteFile() throws Exception {
