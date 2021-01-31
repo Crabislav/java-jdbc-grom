@@ -15,8 +15,8 @@ public class HotelController implements Controller<Hotel> {
     }
 
     @Override
-    public void delete(Hotel hotel) {
-        HOTEL_SERVICE.delete(hotel);
+    public void delete(long id) {
+        HOTEL_SERVICE.delete(id);
     }
 
     @Override

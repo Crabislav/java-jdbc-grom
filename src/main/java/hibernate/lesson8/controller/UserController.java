@@ -15,8 +15,8 @@ public class UserController implements Controller<User> {
     }
 
     @Override
-    public void delete(User user) {
-        userService.delete(user);
+    public void delete(long id) {
+        userService.delete(id);
     }
 
     @Override

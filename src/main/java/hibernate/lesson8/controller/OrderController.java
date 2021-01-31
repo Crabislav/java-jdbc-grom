@@ -15,8 +15,8 @@ public class OrderController implements Controller<Order> {
     }
 
     @Override
-    public void delete(Order order) {
-        ORDER_SERVICE.delete(order);
+    public void delete(long id) {
+        ORDER_SERVICE.delete(id);
     }
 
     @Override

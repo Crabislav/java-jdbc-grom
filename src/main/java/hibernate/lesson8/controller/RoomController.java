@@ -15,8 +15,8 @@ public class RoomController implements Controller<Room> {
     }
 
     @Override
-    public void delete(Room room) {
-        ROOM_SERVICE.delete(room);
+    public void delete(long id) {
+        ROOM_SERVICE.delete(id);
     }
 
     @Override
