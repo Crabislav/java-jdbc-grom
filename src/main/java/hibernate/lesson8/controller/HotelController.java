@@ -3,34 +3,34 @@ package hibernate.lesson8.controller;
 import hibernate.lesson8.entities.Hotel;
 import hibernate.lesson8.service.HotelService;
 
+import java.util.Optional;
+
 public class HotelController implements Controller<Hotel> {
-    private static HotelController hotelController;
-    private static final HotelService hotelService = HotelService.getInstance();
+    private static final HotelController HOTEL_CONTROLLER = getInstance();
+    private static final HotelService HOTEL_SERVICE = HotelService.getInstance();
 
     @Override
     public Hotel save(Hotel hotel) {
-        return hotelService.save(hotel);
+        return HOTEL_SERVICE.save(hotel);
     }
 
     @Override
     public void delete(Hotel hotel) {
-        hotelService.delete(hotel);
+        HOTEL_SERVICE.delete(hotel);
     }
 
     @Override
     public Hotel update(Hotel hotel) {
-        return hotelService.update(hotel);
+        return HOTEL_SERVICE.update(hotel);
     }
 
     @Override
     public Hotel findById(Hotel hotel) {
-        return hotelService.findById(hotel);
+        return HOTEL_SERVICE.findById(hotel);
     }
 
     public static HotelController getInstance() {
-        if (hotelController == null) {
-            hotelController = new HotelController();
-        }
-        return hotelController;
+        return Optional.ofNullable(HOTEL_CONTROLLER)
+                .orElseGet(HotelController::new);
     }
 }
