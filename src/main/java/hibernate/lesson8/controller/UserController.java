@@ -3,8 +3,10 @@ package hibernate.lesson8.controller;
 import hibernate.lesson8.entities.User;
 import hibernate.lesson8.service.UserService;
 
+import java.util.Optional;
+
 public class UserController implements Controller<User> {
-    private static UserController userControllerInstance;
+    private static final UserController USER_CONTROLLER = getInstance();
     private static final UserService userService = UserService.getInstance();
 
     @Override
