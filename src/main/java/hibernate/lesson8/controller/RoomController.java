@@ -11,22 +11,22 @@ public class RoomController implements Controller<Room> {
 
     @Override
     public Room save(Room room) {
-        return null;
+        return ROOM_SERVICE.save(room);
     }
 
     @Override
     public void delete(Room room) {
-
+        ROOM_SERVICE.delete(room);
     }
 
     @Override
     public Room update(Room room) {
-        return null;
+        return ROOM_SERVICE.update(room);
     }
 
     @Override
     public Room findById(long id) {
-        return null;
+        return ROOM_SERVICE.findById(id);
     }
 
     public static RoomController getInstance() {
