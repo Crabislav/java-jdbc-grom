@@ -30,9 +30,7 @@ public class UserController implements Controller<User> {
     }
 
     public static UserController getInstance() {
-        if (userControllerInstance == null) {
-            userControllerInstance = new UserController();
-        }
-        return userControllerInstance;
+        return Optional.ofNullable(USER_CONTROLLER)
+                .orElseGet(UserController::new);
     }
 }
