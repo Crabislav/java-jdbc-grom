@@ -15,9 +15,14 @@
         <!--        <mapping class="hibernate.lesson5.example.Product"/>-->
         <!--        <mapping class="hibernate.lesson6.fullproductdao.Product"/>-->
         <!--        <mapping class="hibernate.lesson6.productdaohql.Product"/>-->
-        <mapping class="hibernate.lesson6.productdaonativesql.Product"/>
+<!--        <mapping class="hibernate.lesson6.productdaonativesql.Product"/>-->
 
-        <mapping class="hibernate.lesson7.entity.Hotel"/>
-        <mapping class="hibernate.lesson7.entity.Room"/>
+<!--        <mapping class="hibernate.lesson7.entity.Hotel"/>-->
+<!--        <mapping class="hibernate.lesson7.entity.Room"/>-->
+        <mapping class="hibernate.lesson8.entities.Hotel"/>
+        <mapping class="hibernate.lesson8.entities.Room"/>
+        <mapping class="hibernate.lesson8.entities.User"/>
+        <mapping class="hibernate.lesson8.entities.UserType"/>
+        <mapping class="hibernate.lesson8.entities.Order"/>
     </session-factory>
 </hibernate-configuration>
