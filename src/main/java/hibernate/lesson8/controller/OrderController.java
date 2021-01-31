@@ -11,22 +11,22 @@ public class OrderController implements Controller<Order> {
 
     @Override
     public Order save(Order order) {
-        return null;
+        return ORDER_SERVICE.save(order);
     }
 
     @Override
     public void delete(Order order) {
-
+        ORDER_SERVICE.delete(order);
     }
 
     @Override
     public Order update(Order order) {
-        return null;
+        return ORDER_SERVICE.update(order);
     }
 
     @Override
     public Order findById(long id) {
-        return null;
+        return ORDER_SERVICE.findById(id);
     }
 
     public static OrderController getInstance() {
