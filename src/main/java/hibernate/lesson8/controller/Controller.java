@@ -7,6 +7,5 @@ public interface  Controller<T> {
 
     T update(T t);
 
-    T findById(T t);
-
+    T findById(long id);
 }

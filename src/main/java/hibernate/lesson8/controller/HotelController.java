@@ -25,8 +25,8 @@ public class HotelController implements Controller<Hotel> {
     }
 
     @Override
-    public Hotel findById(Hotel hotel) {
-        return HOTEL_SERVICE.findById(hotel);
+    public Hotel findById(long id) {
+        return HOTEL_SERVICE.findById(id);
     }
 
     public static HotelController getInstance() {

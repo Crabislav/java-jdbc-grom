@@ -25,8 +25,8 @@ public class UserController implements Controller<User> {
     }
 
     @Override
-    public User findById(User user) {
-        return userService.findById(user);
+    public User findById(long id) {
+        return userService.findById(id);
     }
 
     public static UserController getInstance() {

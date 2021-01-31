@@ -25,7 +25,7 @@ public class RoomController implements Controller<Room> {
     }
 
     @Override
-    public Room findById(Room room) {
+    public Room findById(long id) {
         return null;
     }
 

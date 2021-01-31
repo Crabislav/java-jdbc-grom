@@ -25,7 +25,7 @@ public class OrderController implements Controller<Order> {
     }
 
     @Override
-    public Order findById(Order order) {
+    public Order findById(long id) {
         return null;
     }
 
