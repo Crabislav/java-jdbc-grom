@@ -1,10 +1,13 @@
 package hibernate.lesson8.service;
 
+import hibernate.lesson8.dao.UserDAO;
 import hibernate.lesson8.entities.User;
 
-public class UserService implements Service<User> {
-    private static UserService userService;
+import java.util.Optional;
 
+public class UserService implements Service<User> {
+    private final static UserService USER_SERVICE = getInstance();
+    private static final UserDAO USER_DAO = UserDAO.getInstance();
 
     @Override
     public User save(User user) {
@@ -27,9 +30,7 @@ public class UserService implements Service<User> {
     }
 
     public static UserService getInstance() {
-        if (userService == null) {
-            userService = new UserService();
-        }
-        return userService;
+        return Optional.ofNullable(USER_SERVICE)
+                .orElseGet(UserService::new);
     }
 }
