@@ -1,9 +1,13 @@
 package hibernate.lesson8.service;
 
+import hibernate.lesson8.dao.HotelDAO;
 import hibernate.lesson8.entities.Hotel;
 
+import java.util.Optional;
+
 public class HotelService implements Service<Hotel> {
-    private static HotelService hotelService;
+    private static final HotelService HOTEL_SERVICE = getInstance();
+    private static final HotelDAO HOTEL_DAO = HotelDAO.getInstance();
 
     @Override
     public Hotel save(Hotel hotel) {
@@ -26,9 +30,7 @@ public class HotelService implements Service<Hotel> {
     }
 
     public static HotelService getInstance() {
-        if (hotelService == null) {
-            hotelService = new HotelService();
-        }
-        return hotelService;
+        return Optional.ofNullable(HOTEL_SERVICE)
+                .orElseGet(HotelService::new);
     }
 }
