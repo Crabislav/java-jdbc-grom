@@ -1,7 +1,10 @@
 package hibernate.lesson8.entities;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "HOTELS")
 public class Hotel {
     private Long id;
     private String name;
@@ -10,28 +13,17 @@ public class Hotel {
     private String street;
     private List<Room> rooms;
 
-    public Hotel(String name, String country, String city, String street, List<Room> rooms) {
-        this.name = name;
-        this.country = country;
-        this.city = city;
-        this.street = street;
-        this.rooms = rooms;
-    }
-
-    public Hotel(Hotel hotel) {
-        this.id = hotel.getId();
-        this.name = hotel.getName();
-        this.country = hotel.getCountry();
-        this.city = hotel.getCity();
-        this.street = hotel.getStreet();
-        this.rooms = hotel.getRooms();
-    }
-
-
+    @Id
+    @Column(name = "ID")
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "NAME")
     public String getName() {
         return name;
     }
@@ -40,6 +32,7 @@ public class Hotel {
         this.name = name;
     }
 
+    @Column(name = "COUNTRY")
     public String getCountry() {
         return country;
     }
@@ -48,6 +41,7 @@ public class Hotel {
         this.country = country;
     }
 
+    @Column(name = "")
     public String getCity() {
         return city;
     }
@@ -56,6 +50,7 @@ public class Hotel {
         this.city = city;
     }
 
+    @Column(name = "STREET")
     public String getStreet() {
         return street;
     }
@@ -64,6 +59,7 @@ public class Hotel {
         this.street = street;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "hotel")
     public List<Room> getRooms() {
         return rooms;
     }
@@ -71,6 +67,4 @@ public class Hotel {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
-
 }
