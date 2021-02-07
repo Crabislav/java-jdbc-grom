@@ -19,7 +19,7 @@ public class UserTypeAttributeConverter implements AttributeConverter<UserType, 
             case ADMIN:
                 return 2;
             default:
-                throw new IllegalArgumentException("Value of dbData=" + attribute + " is not supported");
+                throw new IllegalArgumentException("Value of attribute=" + attribute + " is not supported");
         }
     }
 
