@@ -30,8 +30,6 @@ public interface DAO<T> {
             if (tr != null) {
                 tr.rollback();
             }
-            // TODO: 31.01.2021 decide what to do
-//            throw new TransactionExecutionException("Transaction execution failed", e);
         }
     }
 }
