@@ -33,7 +33,7 @@ public class HotelDAO implements DAO<Hotel> {
         DAO.executeInsideTransaction(session -> hotel.set(
                 session.find(Hotel.class, id)
         ));
-        return Optional.of(hotel.get());
+        return Optional.ofNullable(hotel.get());
     }
 
     public static HotelDAO getInstance() {
