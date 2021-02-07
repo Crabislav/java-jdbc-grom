@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 public class HotelServiceAdminUserTest {
     private static final HotelService HOTEL_SERVICE = HotelService.getInstance();
-    private static User testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN, null);
+    private static User testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN);
 
     @BeforeAll
     static void loginUser() {
@@ -30,8 +30,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "UA",
                 "Kiev",
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
@@ -41,8 +40,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "",
                 "Kiev",
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
@@ -52,8 +50,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 null,
                 "Kiev",
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
@@ -63,8 +60,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "Ukraine",
                 null,
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
@@ -74,8 +70,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "Ukraine",
                 "",
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
@@ -86,7 +81,6 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "Ukraine",
                 "Kiev",
-                null,
                 null);
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
@@ -97,8 +91,7 @@ public class HotelServiceAdminUserTest {
                 "Hotel",
                 "Ukraine",
                 "Kiev",
-                "",
-                null);
+                "");
         Assertions.assertThrows(IllegalArgumentException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 }

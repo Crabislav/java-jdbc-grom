@@ -18,8 +18,8 @@ public class UserSessionManagerTest {
 
     @BeforeAll
     static void createTestUser() {
-        testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN, null);
-        testSimpleUser = new User(2L, "SimpleUser", "1234", "UA", UserType.USER, null);
+        testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN);
+        testSimpleUser = new User(2L, "SimpleUser", "1234", "UA", UserType.USER);
     }
 
     @Test

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class HotelServiceNonAdminUserTest {
     private static final HotelService HOTEL_SERVICE = HotelService.getInstance();
-    private static User testSimpleUser = new User(2L, "NotAdminUser", "1234", "UA", UserType.USER, null);
+    private static User testSimpleUser = new User(2L, "NotAdminUser", "1234", "UA", UserType.USER);
 
     @BeforeAll
     static void loginUser() {
@@ -31,8 +31,7 @@ public class HotelServiceNonAdminUserTest {
                 "Hotel",
                 "UA",
                 "Kiev",
-                "Kievskaja",
-                null);
+                "Kievskaja");
         Assertions.assertThrows(NotEnoughRightsUserException.class, () -> HOTEL_SERVICE.save(hotel));
     }
 
