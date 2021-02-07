@@ -4,13 +4,13 @@ import hibernate.lesson8.entities.User;
 import hibernate.lesson8.entities.UserType;
 
 public class UserSessionManager {
-    public static void logIn(User user) {
+    public static void login(User user) {
         if (UserSession.getAuthorizedUser().isEmpty()) {
             UserSession.setAuthorizedUser(user);
         }
     }
 
-    public static void logOut() {
+    public static void logout() {
         UserSession.setAuthorizedUser(null);
     }
 
