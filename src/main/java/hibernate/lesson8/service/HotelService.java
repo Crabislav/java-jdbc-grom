@@ -54,7 +54,6 @@ public class HotelService implements Service<Hotel> {
         }
 
         Hotel hotelToUpdate = getFilteredOptional(hotel)
-                .filter(input -> input.getRooms() != null)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
 
         return HOTEL_DAO.update(hotelToUpdate);
@@ -84,6 +83,4 @@ public class HotelService implements Service<Hotel> {
                 .filter(input -> input.getCity() != null && !input.getCity().isEmpty())
                 .filter(input -> input.getStreet() != null && !input.getStreet().isEmpty());
     }
-
-
 }
