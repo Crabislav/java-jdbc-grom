@@ -17,7 +17,9 @@ public class UserDAO implements DAO<User> {
 
     @Override
     public void delete(long id) {
-        DAO.executeInsideTransaction(session -> session.delete(id));
+        User userToDelete = new User();
+        userToDelete.setId(id);
+        DAO.executeInsideTransaction(session -> session.delete(userToDelete));
     }
 
     @Override
