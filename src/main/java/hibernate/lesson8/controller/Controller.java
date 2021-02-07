@@ -1,5 +1,7 @@
 package hibernate.lesson8.controller;
 
+import java.util.Optional;
+
 public interface  Controller<T> {
     T save(T t);
 
@@ -7,5 +9,5 @@ public interface  Controller<T> {
 
     T update(T t);
 
-    T findById(long id);
+    Optional<T> findById(long id);
 }

@@ -25,7 +25,7 @@ public class RoomController implements Controller<Room> {
     }
 
     @Override
-    public Room findById(long id) {
+    public Optional<Room> findById(long id) {
         return ROOM_SERVICE.findById(id);
     }
 
