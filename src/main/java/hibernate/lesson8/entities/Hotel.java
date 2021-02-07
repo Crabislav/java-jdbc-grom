@@ -13,6 +13,18 @@ public class Hotel {
     private String street;
     private List<Room> rooms;
 
+    public Hotel() {
+    }
+
+    public Hotel(Long id, String name, String country, String city, String street, List<Room> rooms) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.rooms = rooms;
+    }
+
     @Id
     @Column(name = "ID")
     public Long getId() {
@@ -41,7 +53,7 @@ public class Hotel {
         this.country = country;
     }
 
-    @Column(name = "")
+    @Column(name = "CITY")
     public String getCity() {
         return city;
     }

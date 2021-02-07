@@ -15,6 +15,18 @@ public class User {
     private UserType userType;
     private List<Order> orders;
 
+    public User() {
+    }
+
+    public User(Long id, String userName, String password, String country, UserType userType, List<Order> orders) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.country = country;
+        this.userType = userType;
+        this.orders = orders;
+    }
+
     @Id
     @Column(name = "ID")
     public Long getId() {
