@@ -5,13 +5,13 @@ import hibernate.lesson8.entities.Hotel;
 
 public class DemoHotel {
     private static final HotelDAO HOTEL_DAO = HotelDAO.getInstance();
-    private static Hotel testHotel = new Hotel(1L, "Hotel", "UA", "Kiev", "Street", null);
+    private static Hotel testHotel = new Hotel(1L, "Hotel", "UA", "Kiev", "Street");
 
     public static void main(String[] args) {
-        testRoomDAO();
+        testHotelDAO();
     }
 
-    private static void testRoomDAO() {
+    private static void testHotelDAO() {
         boolean result;
 
         //save
