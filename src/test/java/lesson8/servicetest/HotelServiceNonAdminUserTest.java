@@ -1,3 +1,5 @@
+package lesson8.servicetest;
+
 import hibernate.lesson8.entities.Hotel;
 import hibernate.lesson8.entities.User;
 import hibernate.lesson8.entities.UserType;
@@ -11,16 +13,16 @@ import org.junit.jupiter.api.Test;
 
 public class HotelServiceNonAdminUserTest {
     private static final HotelService HOTEL_SERVICE = HotelService.getInstance();
-    private static User testSimpleUser = new User(2L, "SimpleUser", "1234", "UA", UserType.USER, null);
+    private static User testSimpleUser = new User(2L, "NotAdminUser", "1234", "UA", UserType.USER, null);
 
     @BeforeAll
     static void loginUser() {
-        UserSessionManager.logIn(testSimpleUser);
+        UserSessionManager.login(testSimpleUser);
     }
 
     @AfterAll
     static void logout() {
-        UserSessionManager.logOut();
+        UserSessionManager.logout();
     }
 
     @Test
