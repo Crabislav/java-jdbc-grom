@@ -1,7 +1,7 @@
 package hibernate.lesson8.entities;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "ORDERS")
@@ -13,6 +13,18 @@ public class Order {
     private Date dateTo;
     private double moneyPaid;
 
+    public Order() {
+    }
+
+    public Order(long id, User userOrdered, Room room, Date dateFrom, Date dateTo, double moneyPaid) {
+        this.id = id;
+        this.userOrdered = userOrdered;
+        this.room = room;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.moneyPaid = moneyPaid;
+    }
+
     @Id
     @Column(name = "ID")
     public long getId() {
@@ -23,8 +35,8 @@ public class Order {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID")
     public User getUserOrdered() {
         return userOrdered;
     }
@@ -33,7 +45,7 @@ public class Order {
         this.userOrdered = userOrdered;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ROOM_ID")
     public Room getRoom() {
         return room;
@@ -68,5 +80,34 @@ public class Order {
 
     public void setMoneyPaid(double moneyPaid) {
         this.moneyPaid = moneyPaid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (id != order.id) return false;
+        if (Double.compare(order.moneyPaid, moneyPaid) != 0) return false;
+        if (userOrdered != null ? !userOrdered.equals(order.userOrdered) : order.userOrdered != null) return false;
+        if (room != null ? !room.equals(order.room) : order.room != null) return false;
+        if (dateFrom != null ? !dateFrom.equals(order.dateFrom) : order.dateFrom != null) return false;
+        return dateTo != null ? dateTo.equals(order.dateTo) : order.dateTo == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (userOrdered != null ? userOrdered.hashCode() : 0);
+        result = 31 * result + (room != null ? room.hashCode() : 0);
+        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
+        result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
+        temp = Double.doubleToLongBits(moneyPaid);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }
