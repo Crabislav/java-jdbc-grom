@@ -11,16 +11,18 @@ public class DemoRoom {
     private static final RoomDAO ROOM_DAO = RoomDAO.getInstance();
     private static final HotelDAO HOTEL_DAO = HotelDAO.getInstance();
 
-    private static Hotel testHotel = new Hotel(1L, "Hotel", "UA", "Kiev", "Street", null);
+    private static Hotel testHotel = new Hotel(1L, "Hotel", "UA", "Kiev", "Street");
     private static Room testRoom = new Room(1L, 2, 50, true, false, new Date(), testHotel);
 
     public static void main(String[] args) {
+        HOTEL_DAO.save(testHotel);
+
         testRoomDAO();
+
+        HOTEL_DAO.delete(testHotel.getId());
     }
 
     private static void testRoomDAO() {
-        HOTEL_DAO.save(testHotel);
-
         boolean result;
 
         //save
@@ -44,8 +46,6 @@ public class DemoRoom {
         System.out.println("delete:" + result);
 
         System.out.println("================================");
-
-        HOTEL_DAO.delete(testHotel.getId());
     }
 
 }

@@ -6,7 +6,7 @@ import hibernate.lesson8.entities.UserType;
 
 public class DemoUser {
     private static final UserDAO USER_DAO = UserDAO.getInstance();
-    private static User testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN, null);
+    private static User testAdminUser = new User(1L, "Admin", "1234", "UA", UserType.ADMIN);
 
     public static void main(String[] args) {
         testUserDAO();
