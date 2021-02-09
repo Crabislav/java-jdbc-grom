@@ -3,7 +3,7 @@ package hibernate.lesson8.service;
 import hibernate.lesson8.dao.OrderDAO;
 import hibernate.lesson8.entities.Order;
 import hibernate.lesson8.exceptions.NoAuthorizedUserException;
-import hibernate.lesson8.usersession.UserSessionManager;
+import hibernate.lesson8.usersession.UserSession;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Order save(Order order) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -24,7 +24,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public void delete(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -33,7 +33,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Order update(Order order) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -42,7 +42,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Optional<Order> findById(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 

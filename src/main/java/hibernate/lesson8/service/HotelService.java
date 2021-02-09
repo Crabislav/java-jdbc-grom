@@ -4,7 +4,7 @@ import hibernate.lesson8.dao.HotelDAO;
 import hibernate.lesson8.entities.Hotel;
 import hibernate.lesson8.exceptions.NoAuthorizedUserException;
 import hibernate.lesson8.exceptions.NotEnoughRightsUserException;
-import hibernate.lesson8.usersession.UserSessionManager;
+import hibernate.lesson8.usersession.UserSession;
 
 import java.util.Optional;
 
@@ -14,11 +14,11 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Hotel save(Hotel hotel) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (!UserSessionManager.isUserAdmin()) {
+        if (!UserSession.isAdmin()) {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
@@ -29,11 +29,11 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public void delete(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (!UserSessionManager.isUserAdmin()) {
+        if (!UserSession.isAdmin()) {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
@@ -45,11 +45,11 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Hotel update(Hotel hotel) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (!UserSessionManager.isUserAdmin()) {
+        if (!UserSession.isAdmin()) {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
@@ -61,7 +61,7 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Optional<Hotel> findById(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 

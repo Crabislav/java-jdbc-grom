@@ -3,7 +3,6 @@ package lesson8;
 import hibernate.lesson8.entities.User;
 import hibernate.lesson8.entities.UserType;
 import hibernate.lesson8.usersession.UserSession;
-import hibernate.lesson8.usersession.UserSessionManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,28 +28,28 @@ public class UserSessionManagerTest {
 
     @Test
     public void NonAuthorizedUser_LoginWhenEmptySlot_thenOK() {
-        UserSessionManager.login(testAdminUser);
+        UserSession.login(testAdminUser);
         assertEquals(Optional.of(testAdminUser), UserSession.getAuthorizedUser());
     }
 
     @Test
     public void AnotherAuthorizedUser_LoginWhenOccupiedSlot_thenOK() {
-        UserSessionManager.login(testAdminUser);
+        UserSession.login(testAdminUser);
 
-        UserSessionManager.login(testSimpleUser);
+        UserSession.login(testSimpleUser);
         assertEquals(Optional.of(testAdminUser), UserSession.getAuthorizedUser());
     }
 
     @Test
     public void AuthorizedUser_LoginWhenOccupiedSlot_thenOK() {
-        UserSessionManager.login(testAdminUser);
+        UserSession.login(testAdminUser);
 
-        UserSessionManager.login(testSimpleUser);
+        UserSession.login(testSimpleUser);
         assertEquals(Optional.of(testAdminUser), UserSession.getAuthorizedUser());
     }
 
     @AfterEach
     void logoutUsers() {
-        UserSessionManager.logout();
+        UserSession.logout();
     }
 }

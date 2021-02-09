@@ -4,7 +4,7 @@ import hibernate.lesson8.entities.Hotel;
 import hibernate.lesson8.entities.User;
 import hibernate.lesson8.entities.UserType;
 import hibernate.lesson8.service.HotelService;
-import hibernate.lesson8.usersession.UserSessionManager;
+import hibernate.lesson8.usersession.UserSession;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,12 +16,12 @@ public class HotelServiceAdminUserTest {
 
     @BeforeAll
     static void loginUser() {
-        UserSessionManager.login(testAdminUser);
+        UserSession.login(testAdminUser);
     }
 
     @AfterAll
     static void logout() {
-        UserSessionManager.logout();
+        UserSession.logout();
     }
 
     @Test

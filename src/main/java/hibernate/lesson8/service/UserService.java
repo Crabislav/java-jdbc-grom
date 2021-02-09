@@ -3,7 +3,7 @@ package hibernate.lesson8.service;
 import hibernate.lesson8.dao.UserDAO;
 import hibernate.lesson8.entities.User;
 import hibernate.lesson8.exceptions.NoAuthorizedUserException;
-import hibernate.lesson8.usersession.UserSessionManager;
+import hibernate.lesson8.usersession.UserSession;
 
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public class UserService implements Service<User> {
 
     @Override
     public void delete(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -33,7 +33,7 @@ public class UserService implements Service<User> {
 
     @Override
     public User update(User user) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -45,7 +45,7 @@ public class UserService implements Service<User> {
 
     @Override
     public Optional<User> findById(long id) {
-        if (!UserSessionManager.isUserLoggedIn()) {
+        if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
