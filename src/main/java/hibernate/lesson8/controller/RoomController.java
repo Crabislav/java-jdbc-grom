@@ -6,31 +6,32 @@ import hibernate.lesson8.service.RoomService;
 import java.util.Optional;
 
 public class RoomController implements Controller<Room> {
-    private static final RoomController ROOM_CONTROLLER = getInstance();
-    private static final RoomService ROOM_SERVICE = RoomService.getInstance();
+    private static RoomController roomControllerInstance;
 
     @Override
     public Room save(Room room) {
-        return ROOM_SERVICE.save(room);
+        return RoomService.getInstance().save(room);
     }
 
     @Override
     public void delete(long id) {
-        ROOM_SERVICE.delete(id);
+        RoomService.getInstance().delete(id);
     }
 
     @Override
     public Room update(Room room) {
-        return ROOM_SERVICE.update(room);
+        return RoomService.getInstance().update(room);
     }
 
     @Override
     public Optional<Room> findById(long id) {
-        return ROOM_SERVICE.findById(id);
+        return RoomService.getInstance().findById(id);
     }
 
     public static RoomController getInstance() {
-        return Optional.ofNullable(ROOM_CONTROLLER)
-                .orElseGet(RoomController::new);
+        if (roomControllerInstance == null) {
+            roomControllerInstance = new RoomController();
+        }
+        return roomControllerInstance;
     }
 }

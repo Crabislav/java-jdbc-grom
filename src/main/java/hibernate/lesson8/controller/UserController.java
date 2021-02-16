@@ -6,31 +6,32 @@ import hibernate.lesson8.service.UserService;
 import java.util.Optional;
 
 public class UserController implements Controller<User> {
-    private static final UserController USER_CONTROLLER = getInstance();
-    private static final UserService userService = UserService.getInstance();
+    private static UserController userControllerInstance;
 
     @Override
     public User save(User user) {
-        return userService.save(user);
+        return UserService.getInstance().save(user);
     }
 
     @Override
     public void delete(long id) {
-        userService.delete(id);
+        UserService.getInstance().delete(id);
     }
 
     @Override
     public User update(User user) {
-        return userService.update(user);
+        return UserService.getInstance().update(user);
     }
 
     @Override
     public Optional<User> findById(long id) {
-        return userService.findById(id);
+        return UserService.getInstance().findById(id);
     }
 
     public static UserController getInstance() {
-        return Optional.ofNullable(USER_CONTROLLER)
-                .orElseGet(UserController::new);
+        if (userControllerInstance == null) {
+            userControllerInstance = new UserController();
+        }
+        return userControllerInstance;
     }
 }

@@ -6,31 +6,32 @@ import hibernate.lesson8.service.HotelService;
 import java.util.Optional;
 
 public class HotelController implements Controller<Hotel> {
-    private static final HotelController HOTEL_CONTROLLER = getInstance();
-    private static final HotelService HOTEL_SERVICE = HotelService.getInstance();
+    private static HotelController hotelControllerInstance;
 
     @Override
     public Hotel save(Hotel hotel) {
-        return HOTEL_SERVICE.save(hotel);
+        return HotelService.getInstance().save(hotel);
     }
 
     @Override
     public void delete(long id) {
-        HOTEL_SERVICE.delete(id);
+        HotelService.getInstance().delete(id);
     }
 
     @Override
     public Hotel update(Hotel hotel) {
-        return HOTEL_SERVICE.update(hotel);
+        return HotelService.getInstance().update(hotel);
     }
 
     @Override
     public Optional<Hotel> findById(long id) {
-        return HOTEL_SERVICE.findById(id);
+        return HotelService.getInstance().findById(id);
     }
 
     public static HotelController getInstance() {
-        return Optional.ofNullable(HOTEL_CONTROLLER)
-                .orElseGet(HotelController::new);
+        if (hotelControllerInstance == null) {
+            hotelControllerInstance = new HotelController();
+        }
+        return hotelControllerInstance;
     }
 }
