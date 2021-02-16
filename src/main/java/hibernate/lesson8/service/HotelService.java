@@ -37,9 +37,6 @@ public class HotelService implements Service<Hotel> {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
-        if (id < 1) {
-            throw new IllegalArgumentException("Id(" + id + ") can't be < 1");
-        }
         HOTEL_DAO.delete(id);
     }
 
@@ -65,9 +62,6 @@ public class HotelService implements Service<Hotel> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (id < 1) {
-            throw new IllegalArgumentException("Input id (id" + id + ") can't be lower than 1");
-        }
         return HOTEL_DAO.findById(id);
     }
 

@@ -49,10 +49,6 @@ public class UserService implements Service<User> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (id < 1) {
-            throw new IllegalArgumentException("Input id (id" + id + ") can't be lower than 1");
-        }
-
         return USER_DAO.findById(id);
     }
 

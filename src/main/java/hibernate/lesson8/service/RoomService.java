@@ -37,10 +37,6 @@ public class RoomService implements Service<Room> {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
-        if (id < 1) {
-            throw new IllegalArgumentException("Id(" + id + ") can't be < 1");
-        }
-
         ROOM_DAO.delete(id);
     }
 
@@ -64,10 +60,6 @@ public class RoomService implements Service<Room> {
     public Optional<Room> findById(long id) {
         if (!UserSession.isUserLoggedIn()) {
             throw new NoAuthorizedUserException("User is not authorized");
-        }
-
-        if (id < 1) {
-            throw new IllegalArgumentException("Input id (id" + id + ") can't be lower than 1");
         }
 
         return ROOM_DAO.findById(id);
