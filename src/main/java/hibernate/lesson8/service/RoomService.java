@@ -9,8 +9,7 @@ import hibernate.lesson8.usersession.UserSession;
 import java.util.Optional;
 
 public class RoomService implements Service<Room> {
-    private static final RoomService ROOM_SERVICE = getInstance();
-    private static final RoomDAO ROOM_DAO = RoomDAO.getInstance();
+    private static RoomService roomServiceInstance;
 
     @Override
     public Room save(Room room) {
@@ -24,7 +23,7 @@ public class RoomService implements Service<Room> {
 
         Room roomToSave = getFilteredOptional(room)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
-        return ROOM_DAO.save(roomToSave);
+        return RoomDAO.getInstance().save(roomToSave);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class RoomService implements Service<Room> {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
-        ROOM_DAO.delete(id);
+        RoomDAO.getInstance().delete(id);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class RoomService implements Service<Room> {
         Room hotelToUpdate = getFilteredOptional(room)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
 
-        return ROOM_DAO.update(hotelToUpdate);
+        return RoomDAO.getInstance().update(hotelToUpdate);
     }
 
     @Override
@@ -62,12 +61,14 @@ public class RoomService implements Service<Room> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        return ROOM_DAO.findById(id);
+        return RoomDAO.getInstance().findById(id);
     }
 
     public static RoomService getInstance() {
-        return Optional.ofNullable(ROOM_SERVICE)
-                .orElseGet(RoomService::new);
+        if (roomServiceInstance == null) {
+            roomServiceInstance = new RoomService();
+        }
+        return roomServiceInstance;
     }
 
     private Optional<Room> getFilteredOptional(Room room) {

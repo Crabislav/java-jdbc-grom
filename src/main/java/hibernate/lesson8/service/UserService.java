@@ -8,14 +8,13 @@ import hibernate.lesson8.usersession.UserSession;
 import java.util.Optional;
 
 public class UserService implements Service<User> {
-    private final static UserService USER_SERVICE = getInstance();
-    private static final UserDAO USER_DAO = UserDAO.getInstance();
+    private static UserService userServiceInstance;
 
     @Override
     public User save(User user) {
         User userToSave = getFilteredOptional(user)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
-        return USER_DAO.save(userToSave);
+        return UserDAO.getInstance().save(userToSave);
     }
 
     @Override
@@ -24,11 +23,7 @@ public class UserService implements Service<User> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        if (id < 1) {
-            throw new IllegalArgumentException("Id(" + id + ") can't be < 1");
-        }
-
-        USER_DAO.delete(id);
+        UserDAO.getInstance().delete(id);
     }
 
     @Override
@@ -40,7 +35,7 @@ public class UserService implements Service<User> {
         User userToUpdate = getFilteredOptional(user)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
 
-        return USER_DAO.update(userToUpdate);
+        return UserDAO.getInstance().update(userToUpdate);
     }
 
     @Override
@@ -49,11 +44,14 @@ public class UserService implements Service<User> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        return USER_DAO.findById(id);
+        return UserDAO.getInstance().findById(id);
     }
 
     public static UserService getInstance() {
-        return Optional.ofNullable(USER_SERVICE).orElseGet(UserService::new);
+        if (userServiceInstance == null) {
+            userServiceInstance = new UserService();
+        }
+        return userServiceInstance;
     }
 
     private Optional<User> getFilteredOptional(User user) {

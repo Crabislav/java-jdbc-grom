@@ -8,8 +8,7 @@ import hibernate.lesson8.usersession.UserSession;
 import java.util.Optional;
 
 public class OrderService implements Service<Order> {
-    private static final OrderService ORDER_SERVICE = getInstance();
-    private static final OrderDAO ORDER_DAO = OrderDAO.getInstance();
+    private static OrderService orderServiceInstance;
 
     @Override
     public Order save(Order order) {
@@ -19,7 +18,7 @@ public class OrderService implements Service<Order> {
 
         Order orderToSave = getFilteredOptional(order)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
-        return ORDER_DAO.save(orderToSave);
+        return OrderDAO.getInstance().save(orderToSave);
     }
 
     @Override
@@ -28,7 +27,7 @@ public class OrderService implements Service<Order> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        ORDER_DAO.delete(id);
+        OrderDAO.getInstance().delete(id);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class OrderService implements Service<Order> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        return ORDER_DAO.update(order);
+        return OrderDAO.getInstance().update(order);
     }
 
     @Override
@@ -46,12 +45,14 @@ public class OrderService implements Service<Order> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        return ORDER_DAO.findById(id);
+        return OrderDAO.getInstance().findById(id);
     }
 
     public static OrderService getInstance() {
-        return Optional.ofNullable(ORDER_SERVICE)
-                .orElseGet(OrderService::new);
+        if (orderServiceInstance == null) {
+            orderServiceInstance = new OrderService();
+        }
+        return orderServiceInstance;
     }
 
     private Optional<Order> getFilteredOptional(Order order) {

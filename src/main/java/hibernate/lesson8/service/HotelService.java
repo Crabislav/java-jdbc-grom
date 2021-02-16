@@ -9,8 +9,7 @@ import hibernate.lesson8.usersession.UserSession;
 import java.util.Optional;
 
 public class HotelService implements Service<Hotel> {
-    private static final HotelService HOTEL_SERVICE = getInstance();
-    private static final HotelDAO HOTEL_DAO = HotelDAO.getInstance();
+    private static HotelService hotelServiceInstance;
 
     @Override
     public Hotel save(Hotel hotel) {
@@ -24,7 +23,7 @@ public class HotelService implements Service<Hotel> {
 
         Hotel hotelToSave = getFilteredOptional(hotel)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
-        return HOTEL_DAO.save(hotelToSave);
+        return HotelDAO.getInstance().save(hotelToSave);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class HotelService implements Service<Hotel> {
             throw new NotEnoughRightsUserException("Not enough rights to perform this action");
         }
 
-        HOTEL_DAO.delete(id);
+        HotelDAO.getInstance().delete(id);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class HotelService implements Service<Hotel> {
         Hotel hotelToUpdate = getFilteredOptional(hotel)
                 .orElseThrow(() -> new IllegalArgumentException("Input object has an invalid field"));
 
-        return HOTEL_DAO.update(hotelToUpdate);
+        return HotelDAO.getInstance().update(hotelToUpdate);
     }
 
     @Override
@@ -62,11 +61,14 @@ public class HotelService implements Service<Hotel> {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
-        return HOTEL_DAO.findById(id);
+        return HotelDAO.getInstance().findById(id);
     }
 
     public static HotelService getInstance() {
-        return Optional.ofNullable(HOTEL_SERVICE).orElseGet(HotelService::new);
+        if (hotelServiceInstance == null) {
+            hotelServiceInstance = new HotelService();
+        }
+        return hotelServiceInstance;
     }
 
     private Optional<Hotel> getFilteredOptional(Hotel hotel) {
