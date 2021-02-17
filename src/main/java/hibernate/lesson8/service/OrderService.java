@@ -12,7 +12,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Order save(Order order) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -23,7 +23,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public void delete(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -32,7 +32,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Order update(Order order) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -41,7 +41,7 @@ public class OrderService implements Service<Order> {
 
     @Override
     public Optional<Order> findById(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 

@@ -19,7 +19,7 @@ public class UserService implements Service<User> {
 
     @Override
     public void delete(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -28,7 +28,7 @@ public class UserService implements Service<User> {
 
     @Override
     public User update(User user) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -40,7 +40,7 @@ public class UserService implements Service<User> {
 
     @Override
     public Optional<User> findById(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 

@@ -25,12 +25,7 @@ public class UserSession {
 
     public static boolean isAdmin() {
         return Optional.ofNullable(authorizedUser)
-                .orElseThrow(() -> new NoAuthorizedUserException("User is not authorized"))
-                .getUserType() == UserType.ADMIN;
-//        return authorizedUser.getUserType() == UserType.ADMIN;
-    }
-
-    public static boolean isUserLoggedIn() {
-        return authorizedUser == null;
+                .filter(user -> user.getUserType() == UserType.ADMIN)
+                .isPresent();
     }
 }

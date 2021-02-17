@@ -13,7 +13,7 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Hotel save(Hotel hotel) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -28,7 +28,7 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public void delete(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -41,7 +41,7 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Hotel update(Hotel hotel) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -57,7 +57,7 @@ public class HotelService implements Service<Hotel> {
 
     @Override
     public Optional<Hotel> findById(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 

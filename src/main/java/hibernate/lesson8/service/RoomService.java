@@ -13,7 +13,7 @@ public class RoomService implements Service<Room> {
 
     @Override
     public Room save(Room room) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -28,7 +28,7 @@ public class RoomService implements Service<Room> {
 
     @Override
     public void delete(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -41,7 +41,7 @@ public class RoomService implements Service<Room> {
 
     @Override
     public Room update(Room room) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
@@ -57,7 +57,7 @@ public class RoomService implements Service<Room> {
 
     @Override
     public Optional<Room> findById(long id) {
-        if (!UserSession.isUserLoggedIn()) {
+        if (UserSession.getAuthorizedUser().isEmpty()) {
             throw new NoAuthorizedUserException("User is not authorized");
         }
 
