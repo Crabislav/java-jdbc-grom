@@ -1,7 +1,5 @@
 package hibernate.lesson8.entities;
 
-import hibernate.lesson8.entities.atributeconverters.BooleanAttributeConverter;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -57,7 +55,6 @@ public class Room {
         this.price = price;
     }
 
-    @Convert(converter = BooleanAttributeConverter.class)
     @Column(name = "BREAKFAST_INCLUDED")
     public boolean isBreakfastIncluded() {
         return breakfastIncluded;
@@ -67,7 +64,6 @@ public class Room {
         this.breakfastIncluded = breakfastIncluded;
     }
 
-    @Convert(converter = BooleanAttributeConverter.class)
     @Column(name = "PETS_ALLOWED")
     public boolean isPetsAllowed() {
         return petsAllowed;
