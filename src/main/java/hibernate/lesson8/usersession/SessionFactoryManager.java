@@ -14,11 +14,4 @@ public class SessionFactoryManager {
         }
         return sessionFactory;
     }
-
-//    private static final SessionFactory sessionFactory = getInstance();
-//
-//    public static SessionFactory getInstance() {
-//        return Optional.ofNullable(sessionFactory)
-//                .orElseGet(() -> new Configuration().configure().buildSessionFactory());
-//    }
 }
